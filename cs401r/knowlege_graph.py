@@ -25,9 +25,10 @@ with sr.Microphone() as source:
     engine.runAndWait()
     while(1):
         #audio = r.listen(source)
-        audio = r.record(source,duration = 3)
+        audio = r.record(source,duration = 6)
         try:
-            text = r.recognize_google(audio)
+            #text = r.recognize_google(audio)
+            text = input("text:")
             response = templates.response(text)
         except:
             response = templates.fallback_response()
