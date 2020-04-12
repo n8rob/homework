@@ -115,6 +115,20 @@ def authorsForBook(bookID):
         for result in res['results']['bindings']]
     return res
 
+def publishdateOfBook(bookID):
+    sparql_query = """
+       SELECT ?publishDate WHERE {
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+          wd:%s wdt:P577 ?publishDate .
+       }
+       LIMIT 1000
+    """ % bookID
+    #print(sparql_query)
+    res = return_sparql_query_results(sparql_query)
+    return [result['publishDate']['value']
+        for result in res['results']['bindings']]
+    return res
+
 def birthplaceOfAuthor(authorID):
     #      Create and execute a SPARQL query that returns
     #      the place of birth for the author with authorID.
@@ -137,6 +151,34 @@ def birthplaceOfAuthor(authorID):
 
     res = return_sparql_query_results(sparql_query)
     return [result['birthPlaceLabel']['value']
+        for result in res['results']['bindings']]
+
+def birthdateOfAuthor(authorID):
+    
+    sparql_query = """
+    SELECT ?birthYearLabel WHERE {
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+          wd:%s wdt:P569 ?birthYear .
+       }
+       LIMIT 1000
+    """ % authorID
+
+    res = return_sparql_query_results(sparql_query)
+    return [result['birthYearLabel']['value']
+        for result in res['results']['bindings']]
+
+def deathdateOfAuthor(authorID):
+
+    sparql_query = """
+    SELECT ?deathYearLabel WHERE {
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+          wd:%s wdt:P570 ?deathYear .
+       }
+       LIMIT 1000
+    """ % authorID
+
+    res = return_sparql_query_results(sparql_query)
+    return [result['deathYearLabel']['value']
         for result in res['results']['bindings']]
 
 
